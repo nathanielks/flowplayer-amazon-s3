@@ -51,7 +51,7 @@ class Flowplayer5_Amazon_S3 {
 		
 		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );	
 
-		if( is_plugin_active( 'flowplayer5/flowplayer5.php' ) ){
+		if( is_plugin_active( 'flowplayer5/flowplayer.php' ) ){
 			$this->plugin_slug = 'flowplayer_amazon_s3';
 
 			if( is_admin ){
@@ -68,9 +68,8 @@ class Flowplayer5_Amazon_S3 {
 			// Filter video src	
 			add_filter( 'fp5_filter_video_src', array( $this, 'filter_video_src' ), 20, 3 );
 		} else {
-			wp_die( new WP_Error( 'fp5-amazon-s3-no-plugin', 'You need to activate Flowplayer 5 plugin. If you don\'t have the Flowplayer 5 plugin, get it here: https://github.com/nathanielks/wordpress-flowplayer'))
+			wp_die( new WP_Error( 'fp5-amazon-s3-no-plugin', 'You need to activate Flowplayer 5 plugin. If you don\'t have the Flowplayer 5 plugin, get it here: https://github.com/nathanielks/wordpress-flowplayer') );
 		}
-
 
 	}
 
