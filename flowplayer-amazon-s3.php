@@ -8,7 +8,7 @@
  *
  * @wordpress-plugin
  * Plugin Name: Amazon S3 for Flowplayer 5
- * Description: Enables the use of Amazon S3 signed urls for protected video streaming. Depends upon http://wordpress.org/plugins/flowplayer5/
+ * Description: Enables the use of Amazon S3 signed urls for protected video streaming. Depends upon https://github.com/nathanielks/wordpress-flowplayer
  * Version:     0.1.0
  * Author:      Nathaniel Schweinberg
  * Author URI:  http://fightthecurrent.org/
@@ -68,7 +68,7 @@ class Flowplayer5_Amazon_S3 {
 			// Filter video src	
 			add_filter( 'fp5_filter_video_src', array( $this, 'filter_video_src' ), 20, 3 );
 		} else {
-			wp_die( new WP_Error( 'fp5-amazon-s3-no-plugin', 'You need to activate Flowplayer 5 plugin. If you don\'t have the Flowplayer 5 plugin, get it here: http://wordpress.org/plugins/flowplayer5/'))
+			wp_die( new WP_Error( 'fp5-amazon-s3-no-plugin', 'You need to activate Flowplayer 5 plugin. If you don\'t have the Flowplayer 5 plugin, get it here: https://github.com/nathanielks/wordpress-flowplayer'))
 		}
 
 
