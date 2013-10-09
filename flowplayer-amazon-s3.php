@@ -164,6 +164,12 @@ class Flowplayer5_Amazon_S3 {
 						</label>
 					</td>
 				</tr>
+				<tr valign="top">
+					<th scope="row"><label for="fp5-expire-time"><?php _e( 'Expire Time ( in minutes )', $this->plugin_slug )?></label></th>
+					<td>
+						<input class="input-text" type="text" name="fp5-expire-time" id="fp5-expire-time" size="70" value="<?php if ( isset ( $fp5_stored_meta['fp5-expire-time'] ) ) echo esc_url( $fp5_stored_meta['fp5-expire-time'][0] ); ?>" />
+					</td>
+				</tr>
 			</tbody>
 		</table>
 	<?php
@@ -185,6 +191,11 @@ class Flowplayer5_Amazon_S3 {
 			} else {
 				update_post_meta( $post_id, 'fp5-enable-s3', '' );
 			}
+
+			// Checks for input and saves if needed
+            if( isset( $_POST[ 'fp5-expire-time' ] ) ) { 
+                update_post_meta( $post_id, 'fp5-expire-time', $_POST[ 'fp5-expire-time' ] );
+            }
 		}
 
 	}
@@ -216,13 +227,14 @@ class Flowplayer5_Amazon_S3 {
 			$access_key = apply_filters( 'fp5_amazon_s3_access_key', $options['amazon_s3_access_key'] );
 			$secret_key = apply_filters( 'fp5_amazon_s3_secret_key', $options['amazon_s3_secret_access_key'] );
 			$region = apply_filters( 'fp5_amazon_s3_region', $options['amazon_s3_region'] );
+			$expires = get_post_meta( $id, 'fp5-expire-time', true );
 			if( empty( $access_key ) && empty( $secret_key ) ){
 				// Error! No keys!
 				return new WP_Error( 'fp5-amazon-s3-no-key', __( 'Sorry, but you haven\'t entered your Amazon S3 Access Keys yet!.', $this->plugin_slug ) );
 			} else {
 				$region = ( empty( $region ) ) ? 's3' : $region;
 				// Add expires meta box
-				return $this->format_s3_link( $access_key, $secret_key, $region, $src );
+				return $this->format_s3_link( $access_key, $secret_key, $region, $src, $expires );
 			}
 
 		}
@@ -241,7 +253,7 @@ class Flowplayer5_Amazon_S3 {
     * @see http://awsdocs.s3.amazonaws.com/S3/20060301/s3-dg-20060301.pdf
     */
     
-    function format_s3_link($accessKey, $secretKey, $region, $path, $expires = 1) {
+    function format_s3_link($accessKey, $secretKey, $region, $path, $expires = 3) {
 
 		// Calculate expiry time
 		$expires = time() + intval(floatval($expires) * 60);
