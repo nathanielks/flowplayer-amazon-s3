@@ -167,7 +167,7 @@ class Flowplayer5_Amazon_S3 {
 				<tr valign="top">
 					<th scope="row"><label for="fp5-expire-time"><?php _e( 'Expire Time ( in minutes )', $this->plugin_slug )?></label></th>
 					<td>
-						<input class="input-text" type="text" name="fp5-expire-time" id="fp5-expire-time" size="70" value="<?php if ( isset ( $fp5_stored_meta['fp5-expire-time'] ) ) echo esc_url( $fp5_stored_meta['fp5-expire-time'][0] ); ?>" />
+						<input class="input-text" type="text" name="fp5-expire-time" id="fp5-expire-time" size="70" value="<?php if ( isset ( $fp5_stored_meta['fp5-expire-time'] ) ) echo esc_attr( $fp5_stored_meta['fp5-expire-time'][0] ); ?>" />
 					</td>
 				</tr>
 			</tbody>
@@ -254,7 +254,9 @@ class Flowplayer5_Amazon_S3 {
     */
     
     function format_s3_link($accessKey, $secretKey, $region, $path, $expires = 3) {
-
+		if( empty( $expires ) ){
+			$expires = 3;
+		}
 		// Calculate expiry time
 		$expires = time() + intval(floatval($expires) * 60);
 
