@@ -68,11 +68,30 @@ class Flowplayer5_Amazon_S3 {
 			// Filter video src	
 			add_filter( 'fp5_filter_video_src', array( $this, 'filter_video_src' ), 20, 3 );
 		} else {
-			wp_die( new WP_Error( 'fp5-amazon-s3-no-plugin', 'You need to activate Flowplayer 5 plugin. If you don\'t have the Flowplayer 5 plugin, get it here: https://github.com/nathanielks/wordpress-flowplayer') );
+			add_action('admin_notices', array( $this, 'admin_notice' ) );
+			add_action('admin_init', array( $this, 'nag_ignore' ) );
 		}
 
 	}
 
+	function admin_notice() {
+		global $current_user ;
+			$user_id = $current_user->ID;
+			/* Check that the user hasn't already clicked to ignore the message */
+		if ( ! get_user_meta($user_id, $this->plugin_slug . '_ignore_notice') ) {
+			echo '<div class="error"><p>';
+			printf(__('You need to activate Flowplayer 5 plugin. If you don\'t have the Flowplayer 5 plugin, get it <a href="https://github.com/nathanielks/wordpress-flowplayer">here</a> | <a href="%1$s">Hide Notice</a>'), '?' . $this->plugin_slug . '_nag_ignore=0');
+			echo "</p></div>";
+		}
+	}
+	function nag_ignore() {
+		global $current_user;
+			$user_id = $current_user->ID;
+			/* If user clicks to ignore the notice, add that to their user meta */
+			if ( isset($_GET[ $this->plugin_slug . '_nag_ignore']) && '0' == $_GET[ $this->plugin_slug . '_nag_ignore'] ) {
+				 add_user_meta($user_id, $this->plugin_slug . '_ignore_notice', 'true', true);
+		}
+	}
 	public function settings_general( $settings ){
 		$settings['amazon_s3'] = array(
 			'id'   => 'amazon_s3',
