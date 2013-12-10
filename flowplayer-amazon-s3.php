@@ -54,7 +54,7 @@ class Flowplayer5_Amazon_S3 {
 		if( is_plugin_active( 'flowplayer5/flowplayer.php' ) ){
 			$this->plugin_slug = 'flowplayer_amazon_s3';
 
-			if( is_admin ){
+			if( is_admin() ){
 				// Add some more setings
 				add_filter( 'fp5_settings_general', array( $this, 'settings_general' ) );
 
