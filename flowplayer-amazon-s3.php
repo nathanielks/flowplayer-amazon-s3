@@ -67,11 +67,18 @@ class Flowplayer5_Amazon_S3 {
 
 			// Filter video src	
 			add_filter( 'fp5_filter_video_src', array( $this, 'filter_video_src' ), 20, 3 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'remove_script_conflicts' ) );
 		} else {
 			add_action('admin_notices', array( $this, 'admin_notice' ) );
 			add_action('admin_init', array( $this, 'nag_ignore' ) );
 		}
 
+	}
+
+	function remove_script_conflicts(){
+		// Popup Domination conflicts with our versions of Flowplayer
+		wp_dequeue_script( 'flowplayer');
+		wp_dequeue_script( 'flowplayer-ipad' );
 	}
 
 	function admin_notice() {
@@ -287,6 +294,7 @@ class Flowplayer5_Amazon_S3 {
 		));
 		// ... and return the URL!
 		$new_url = $url.'?'.$qs;
+		//echo '<div style="display:none">' . $new_url . '</div>';
 		return $new_url;
 	}
 
