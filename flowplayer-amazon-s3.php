@@ -111,11 +111,6 @@ class Flowplayer5_Amazon_S3 {
 		wp_dequeue_script( 'flowplayer-ipad' );
 	}
 
-	function admin_notice() {
-		global $current_user ;
-			$user_id = $current_user->ID;
-			/* Check that the user hasn't already clicked to ignore the message */
-		if ( ! get_user_meta($user_id, $this->plugin_slug . '_ignore_notice') ) {
 	/**
 	 * Add admin notice
 	 *
@@ -126,7 +121,6 @@ class Flowplayer5_Amazon_S3 {
 		$user_id = $current_user->ID;
 		/* Check that the user hasn't already clicked to ignore the message */
 		if ( ! get_user_meta( $user_id, $this->plugin_slug . '_ignore_notice' ) ) {
->>>>>>> e893894609febbb512f1ad26f9c9e314fe9344fc
 			echo '<div class="error"><p>';
 			if ( is_plugin_inactive( 'flowplayer5/flowplayer.php' ) ) {
 				printf(
